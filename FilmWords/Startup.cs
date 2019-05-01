@@ -13,6 +13,10 @@ using Microsoft.EntityFrameworkCore;
 using FilmWords.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FilmWords.Services.Interfaces;
+using FilmWords.Services.Implementations;
+using AutoMapper;
+using FilmWords.Data.Profiles;
 
 namespace FilmWords
 {
@@ -42,6 +46,14 @@ namespace FilmWords
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddScoped<ISentenceService, SentenceService>();
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<SentenceProfile>();
+            });
+
+            services.AddAutoMapper();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
